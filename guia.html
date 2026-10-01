@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>LGS — Guía de estudio por niveles</title>
+<meta name="theme-color" content="#1F4741">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%231F4741'/%3E%3Ctext x='32' y='42' font-size='24' font-weight='700' text-anchor='middle' fill='%23F5F2E6' font-family='Georgia,serif'%3ELGS%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="lib/bootstrap.min.css">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-page="guia">
+<div id="app">
+
+  <div class="overlay" id="overlay"></div>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <span class="brand-mark">🧭</span>
+      <div class="brand-title">LGS</div>
+      <div class="brand-sub fw-semibold">Luz Guía Superior</div>
+      <div class="brand-sub" id="brandSub"></div>
+    </div>
+    <ul class="navlist" id="navlist">
+      <li><button class="navlink active" data-panel="inicio"><span class="ic">🏛</span> Inicio</button></li>
+      <li><button class="navlink" data-panel="guia"><span class="ic">📖</span> Guía de estudio</button></li>
+      <li><button class="navlink" data-panel="examen"><span class="ic">📝</span> Examen de ingreso</button></li>
+      <li><button class="navlink" data-panel="chat"><span class="ic">💬</span> Tutor IA</button></li>
+      <li><button class="navlink" data-panel="practica"><span class="ic">✍️</span> Práctica</button></li>
+      <li><button class="navlink" data-panel="juegos"><span class="ic">🎲</span> Juegos</button></li>
+      <li><button class="navlink" data-panel="material"><span class="ic">📄</span> Mi material</button></li>
+      <li><button class="navlink" data-panel="recursos"><span class="ic">🔗</span> Recursos</button></li>
+    </ul>
+    <div class="sidebar-foot">
+      <p style="margin:0 0 10px;"><a href="seleccion.html">Cambiar carrera o universidad</a><br><a href="index.html" id="logoutLink">Cerrar sesión</a></p>
+      <div class="theme-toggle">
+        <button class="theme-btn" data-theme="auto">Auto</button>
+        <button class="theme-btn" data-theme="light">Claro</button>
+        <button class="theme-btn" data-theme="dark">Oscuro</button>
+      </div>
+      Tu progreso se guarda solo en este dispositivo.
+    </div>
+  </aside>
+
+  <main>
+    <div class="mobile-topbar">
+      <button class="menu-btn" id="menuBtn">☰</button>
+      <div class="brand-title">🧭 LGS</div>
+      <span style="width:38px"></span>
+    </div>
+
+    <!-- ============ INICIO ============ -->
+    <section class="panel active" id="panel-inicio">
+      <div class="hero">
+        <p class="eyebrow" id="heroEyebrow">GUÍA AUTODIDACTA · LICENCIATURA EN LENGUA CASTELLANA, LITERATURA E INGLÉS</p>
+        <h1 id="heroH1">Todo lo que tu carrera te va a pedir, antes de que te lo pida.</h1>
+        <p class="lead" id="heroLead">Una plataforma para prepararte por tu cuenta antes de — y durante — tu licenciatura: diez módulos de fundamentos lingüísticos y literarios, un tutor con IA para resolver dudas al vuelo, ejercicios de redacción y lectura, y juegos que convierten la teoría en reflejo.</p>
+        <div class="hero-actions">
+          <button class="btn btn-oxblood" data-goto="guia">Empezar por la guía</button>
+          <button class="btn btn-outline" data-goto="chat">Preguntarle al tutor IA</button>
+        </div>
+      </div>
+
+      <div class="stat-row" id="statRow">
+        <div class="stat"><b>10</b><span>Módulos de fundamentos: fonética, sintaxis, semántica, sociolingüística, discurso, literatura, didáctica e inglés</span></div>
+        <div class="stat"><b>5</b><span>Juegos interactivos para automatizar conceptos clave</span></div>
+        <div class="stat"><b>4</b><span>Estaciones de práctica: redacción, lectura, gramática y vocabulario</span></div>
+        <div class="stat"><b>∞</b><span>Preguntas que puedes hacerle a tu tutor personal</span></div>
+      </div>
+
+      <div id="lenguaMap"><hr class="rule">
+
+      <h2 style="font-family:var(--serif-display);font-size:22px;">Mapa de la carrera</h2>
+      <p style="font-family:var(--serif-body);color:var(--ink-soft);max-width:70ch;line-height:1.6;">La Licenciatura en Lengua Castellana e Idiomas (o Lenguas Extranjeras, según el programa) forma docentes e investigadores del lenguaje. Se apoya en dos grandes troncos: la <b>lingüística</b> — cómo funciona el lenguaje como sistema — y los <b>estudios literarios y culturales</b> — cómo el lenguaje produce sentido, identidad y arte — más un componente de <b>pedagogía</b> que enseña a transformar ese saber en enseñanza efectiva de lengua materna y lengua extranjera (inglés).</p>
+
+      <div class="grid grid-3" style="margin-top:18px;">
+        <div class="card" style="padding:18px;">
+          <div class="chip chip-tag" style="margin-bottom:10px;">Eje lingüístico</div>
+          <p style="font-size:13.5px;color:var(--ink-soft);margin:0;">Fonética, morfosintaxis, semántica, pragmática y sociolingüística: cómo se organiza y varía la lengua.</p>
+        </div>
+        <div class="card" style="padding:18px;">
+          <div class="chip chip-tag" style="margin-bottom:10px;">Eje literario-cultural</div>
+          <p style="font-size:13.5px;color:var(--ink-soft);margin:0;">Historia literaria, teoría y análisis del discurso: cómo se lee, interpreta y critica un texto.</p>
+        </div>
+        <div class="card" style="padding:18px;">
+          <div class="chip chip-tag" style="margin-bottom:10px;">Eje pedagógico y lengua extranjera</div>
+          <p style="font-size:13.5px;color:var(--ink-soft);margin:0;">Adquisición de segundas lenguas, didáctica e inglés (fonética, gramática, literatura y metodología).</p>
+        </div>
+      </div>
+
+      </div>
+      <hr class="rule">
+
+      <h2 style="font-family:var(--serif-display);font-size:22px;">Tu avance por módulo</h2>
+      <p style="font-size:13.5px;color:var(--ink-soft);margin-top:-6px;">Marca lo que ya dominas — se guarda automáticamente en este navegador.</p>
+      <div class="progress-wrap">
+        <div class="progress-bar-track"><div class="progress-bar-fill" id="progressFill"></div></div>
+        <div style="font-family:var(--mono);font-size:12px;color:var(--ink-faint);margin-top:6px;" id="progressLabel">0 de 10 módulos estudiados</div>
+      </div>
+      <ul class="module-check-list" id="moduleCheckList"></ul>
+
+      <div id="lenguaPlan"><hr class="rule">
+
+      <h2 style="font-family:var(--serif-display);font-size:22px;">Plan autodidacta sugerido de 8 semanas</h2>
+      <div class="scrollx">
+      <table class="plan-table">
+        <thead><tr><th>Semanas</th><th>Enfoque</th><th>Entregable autodidacta</th></tr></thead>
+        <tbody>
+          <tr><td>1–2</td><td>Fonética, fonología y AFI (español e inglés)</td><td>Transcripción fonética de 20 palabras difíciles en ambas lenguas</td></tr>
+          <tr><td>3–4</td><td>Morfosintaxis y lectura graduada</td><td>Análisis de sintagmas en 5 artículos breves de prensa</td></tr>
+          <tr><td>5–6</td><td>Literatura, sociolingüística y análisis del discurso</td><td>Reseña crítica de una obra + comparación de dos titulares de prensa</td></tr>
+          <tr><td>7–8</td><td>Didáctica, producción escrita y método Feynman</td><td>Grabar un audio de 5 min explicando un concepto lingüístico, y escribir un ensayo argumentativo</td></tr>
+        </tbody>
+      </table>
+      </div>
+</div>
+    </section>
+
+    <!-- ============ GUÍA ============ -->
+    <section class="panel" id="panel-guia">
+      <div class="section-head">
+        <p class="eyebrow">GUÍA DE ESTUDIO</p>
+        <h1 id="guideTitle">Guía por niveles</h1>
+        <p id="guideLead"></p>
+      </div>
+      <div class="row g-3 mb-4" id="levelBar"></div>
+      <div class="module-nav" id="moduleNav"></div>
+      <div id="moduleContainer"></div>
+      <div id="guideNext" style="margin-top:22px;"></div>
+    </section>
+
+    <!-- ============ CHAT ============ -->
+    <section class="panel" id="panel-chat">
+      <div class="section-head">
+        <p class="eyebrow">TUTOR IA</p>
+        <h1>Pregúntale lo que quieras sobre tu carrera</h1>
+        <p>Explica conceptos de lingüística, literatura, didáctica e inglés; te examina, corrige tus textos y arma planes de estudio. Elige un modo, o abre un módulo de la guía y pulsa «Preguntar al tutor» para que responda con ese contexto.</p>
+      </div>
+      <div class="chat-shell">
+        <div class="chat-topbar">
+          <div class="chat-status"><span class="dot" id="chatDot"></span><span id="chatAvail">Comprobando conexión…</span></div>
+          <div class="chat-tools">
+            <button class="icon-btn" id="chatExport" type="button" title="Exportar conversación" aria-label="Exportar conversación">⬇ Exportar</button>
+            <button class="icon-btn" id="chatClear" type="button" title="Nueva conversación" aria-label="Nueva conversación">🗑 Nueva</button>
+          </div>
+        </div>
+        <div class="chat-modes" id="chatModes" role="group" aria-label="Modo del tutor"></div>
+        <div class="chat-ctx hidden" id="chatCtx"></div>
+        <div class="chat-log" id="chatLog" role="log" aria-label="Conversación con el tutor"></div>
+        <div class="chat-suggest" id="chatSuggest"></div>
+        <div class="chat-input-row">
+          <textarea id="chatInput" placeholder="Escribe tu pregunta sobre la carrera…" rows="1" maxlength="4000" aria-label="Tu mensaje para el tutor" enterkeyhint="send"></textarea>
+          <button class="btn btn-primary" id="chatSend" type="button">Enviar</button>
+        </div>
+        <div class="chat-foot"><span id="chatCount"></span><span>La IA puede equivocarse: verifica datos importantes.</span></div>
+      </div>
+    </section>
+
+    <!-- ============ PRÁCTICA ============ -->
+    <section class="panel" id="panel-practica">
+      <div class="section-head">
+        <p class="eyebrow">ESTACIONES DE PRÁCTICA</p>
+        <h1>De la teoría al hábito</h1>
+        <p>Redacta, lee, corrige y memoriza. Cada estación guarda tu progreso localmente.</p>
+      </div>
+      <p class="alert alert-warning note pilot-note hidden">Las estaciones de práctica y los juegos incluyen por ahora contenido de Lengua Castellana y Literatura. Para tu carrera se generarán a partir de tu propio material (sección «Mi material»).</p>
+      <div class="tool-tabs">
+        <button class="tool-tab active" data-tool="redaccion">Redacción</button>
+        <button class="tool-tab" data-tool="lectura">Comprensión lectora</button>
+        <button class="tool-tab" data-tool="gramatica">Taller de gramática</button>
+        <button class="tool-tab" data-tool="vocab">Flashcards</button>
+      </div>
+
+      <div class="tool-pane active" id="tool-redaccion">
+        <div class="prompt-list" id="writingPrompts"></div>
+        <div id="writingArea" class="hidden">
+          <h3 id="writingTitle" style="font-family:var(--serif-display);"></h3>
+          <textarea class="writer" id="writerBox" placeholder="Empieza a escribir aquí…"></textarea>
+          <div class="writer-meta"><span id="wordCount">0 palabras</span><span>Se guarda automáticamente</span></div>
+          <ul class="checklist">
+            <li><input type="checkbox" data-c="1"> Tiene introducción con tesis clara</li>
+            <li><input type="checkbox" data-c="2"> El desarrollo presenta evidencia o ejemplos</li>
+            <li><input type="checkbox" data-c="3"> Hay conclusión que retoma la tesis</li>
+            <li><input type="checkbox" data-c="4"> Revisé ortografía, tildes y concordancia</li>
+            <li><input type="checkbox" data-c="5"> Leí el texto en voz alta para revisar el ritmo</li>
+          </ul>
+          <div class="writer-actions">
+            <button class="btn btn-primary btn-sm" id="feedbackDraft">💬 Pedir feedback al tutor</button>
+            <button class="btn btn-outline btn-sm" id="downloadDraft">Descargar borrador (.txt)</button>
+            <button class="btn btn-outline btn-sm" id="clearDraft">Borrar borrador</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="tool-pane" id="tool-lectura"></div>
+      <div class="tool-pane" id="tool-gramatica"></div>
+      <div class="tool-pane" id="tool-vocab">
+        <div class="flash-grid" id="flashGrid"></div>
+      </div>
+    </section>
+
+    <!-- ============ JUEGOS ============ -->
+    <section class="panel" id="panel-juegos">
+      <div class="section-head">
+        <p class="eyebrow">JUEGOS INTERACTIVOS</p>
+        <h1>Aprender jugando, en serio</h1>
+        <p>Cinco mecánicas distintas para automatizar los conceptos de la guía.</p>
+      </div>
+
+      <p class="alert alert-warning note pilot-note hidden">Las estaciones de práctica y los juegos incluyen por ahora contenido de Lengua Castellana y Literatura. Para tu carrera se generarán a partir de tu propio material (sección «Mi material»).</p>
+      <div class="card game-card">
+        <h3>⚡ Quiz relámpago</h3>
+        <p class="desc">10 preguntas al azar de toda la carrera, 20 segundos cada una.</p>
+        <div id="quizGame"></div>
+      </div>
+
+      <div class="card game-card">
+        <h3>🪢 Ahorcado literario y lingüístico</h3>
+        <p class="desc">Adivina el término antes de quedarte sin intentos.</p>
+        <div id="hangmanGame"></div>
+      </div>
+
+      <div class="card game-card">
+        <h3>🧩 Empareja el movimiento</h3>
+        <p class="desc">Une cada movimiento literario con su rasgo o autor característico.</p>
+        <div id="matchGame"></div>
+      </div>
+
+      <div class="card game-card">
+        <h3>🔤 Transcriptor AFI</h3>
+        <p class="desc">Escribe la transcripción fonética (AFI) de cada palabra.</p>
+        <div id="ipaGame"></div>
+      </div>
+
+      <div class="card game-card">
+        <h3>🔍 Detective del discurso</h3>
+        <p class="desc">Identifica el sesgo ideológico y el agente en cada titular.</p>
+        <div id="discourseGame"></div>
+      </div>
+    </section>
+
+    <!-- ============ EXAMEN ============ -->
+    <section class="panel" id="panel-examen">
+      <div class="section-head">
+        <p class="eyebrow">SIMULADOR DE EXAMEN DE INGRESO</p>
+        <h1>Practica con el formato de tu universidad</h1>
+        <p>El simulacro se desbloquea al terminar los tres niveles de la guía. Su formato es referencial: confirma siempre los detalles en la página oficial de admisiones.</p>
+      </div>
+      <div id="examBox"></div>
+    </section>
+
+    <!-- ============ MI MATERIAL ============ -->
+    <section class="panel" id="panel-material">
+      <div class="section-head">
+        <p class="eyebrow">MI MATERIAL</p>
+        <h1>Sube tus apuntes en PDF</h1>
+        <p>Aquí reunirás tus guías y resúmenes para convertirlos en ejercicios y juegos propios.</p>
+      </div>
+      <p class="alert alert-warning note">Estado del prototipo: puedes seleccionar y listar tus PDF, pero el análisis automático con IA se conectará en una fase posterior.</p>
+      <label class="field" style="max-width:480px;">Elegir archivos PDF (máx. 10 MB cada uno)<input id="pdfInput" type="file" accept="application/pdf,.pdf" multiple></label>
+      <div id="fileList"></div>
+    </section>
+
+    <!-- ============ RECURSOS ============ -->
+    <section class="panel" id="panel-recursos">
+      <div class="section-head">
+        <p class="eyebrow">RECURSOS</p>
+        <h1>Herramientas para seguir profundizando</h1>
+        <p>Diccionarios, corpus y guías de referencia útiles para el español y el inglés académico.</p>
+      </div>
+      <ul class="res-list">
+        <li><a href="https://www.rae.es" target="_blank" rel="noopener">Diccionario de la lengua española (RAE)</a><span>Consulta normativa de significados, etimologías y conjugaciones</span></li>
+        <li><a href="https://www.fundeu.es" target="_blank" rel="noopener">Fundéu</a><span>Dudas de uso, neologismos y estilo periodístico en español</span></li>
+        <li><a href="https://www.rae.es/banco-de-datos/crea-anotado" target="_blank" rel="noopener">CREA / CORPES (RAE)</a><span>Corpus de referencia del español para ver palabras en contexto real</span></li>
+        <li><a href="https://dictionary.cambridge.org" target="_blank" rel="noopener">Cambridge Dictionary</a><span>Definiciones, pronunciación AFI y ejemplos en inglés</span></li>
+        <li><a href="https://owl.purdue.edu" target="_blank" rel="noopener">Purdue OWL</a><span>Guías de escritura académica, citación y gramática inglesa</span></li>
+        <li><a href="https://www.britishcouncil.org" target="_blank" rel="noopener">British Council — LearnEnglish</a><span>Recursos de gramática, listening y metodología ELT</span></li>
+      </ul>
+    </section>
+
+    <footer class="app-foot">Plataforma de orientación vocacional y preparación universitaria. Es material de apoyo y no sustituye la información oficial de admisiones de cada universidad.</footer>
+  </main>
+</div>
+
+
+<div class="lgs-toast" id="toast" role="status" aria-live="polite"></div>
+<script src="lib/bootstrap.bundle.min.js"></script>
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
