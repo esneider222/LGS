@@ -1,7 +1,6 @@
 /**
- * ============================================================================
- *  TUTOR IA — Lengua & Letras  ·  Cloudflare Worker + Google Gemini
- * ============================================================================
+
+ *  Cloudflare Worker + Google Gemini
  *  Qué hace:
  *    - Recibe el historial del chat desde la app (APK / web).
  *    - Le añade el "system prompt" del tutor, adaptado a la carrera y universidad
@@ -69,7 +68,7 @@ function buildSystemPrompt(careerId, uniId) {
   const c = CAREERS[careerId] || CAREERS.lengua;
   const uni = UNIVERSITIES[uniId];
   return [
-    'Eres el Tutor IA de una plataforma de orientación vocacional y preparación para el examen de ingreso universitario. El estudiante se prepara para ingresar a: ' + c.name + (uni ? ' en la ' + uni : '') + '.',
+    'Eres el Tutor IA de LGS (Luz Guía Superior), una plataforma de orientación vocacional y preparación para el examen de ingreso universitario. El estudiante se prepara para ingresar a: ' + c.name + (uni ? ' en la ' + uni : '') + '.',
     "",
     "ÁREAS: " + c.areas + ".",
     "",
@@ -377,7 +376,7 @@ export default {
     // Diagnóstico: abre la URL del Worker en el navegador para verificar que todo está bien
     if (request.method === "GET") {
       return json(
-        { ok: true, service: "Tutor IA · Orientación y preparación universitaria", configured: Boolean(env.GEMINI_API_KEY), models: getModels(env) },
+        { ok: true, service: "LGS · Luz Guía Superior (Tutor IA)", configured: Boolean(env.GEMINI_API_KEY), models: getModels(env) },
         200,
         cors
       );
