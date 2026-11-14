@@ -8,13 +8,13 @@ const userSchema = new mongoose.Schema(
       required: [true, 'El usuario es obligatorio'],
       unique: true,
       trim: true,
-      minlength: 3,
-      maxlength: 40,
+      minlength: [3, 'El usuario debe tener al menos 3 caracteres'],
+      maxlength: [40, 'El usuario no puede superar 40 caracteres'],
     },
     password: {
       type: String,
       required: [true, 'La contraseña es obligatoria'],
-      minlength: 4,
+      minlength: [6, 'La contraseña debe tener al menos 6 caracteres'],
       select: false,
     },
     name: {
@@ -28,7 +28,7 @@ const userSchema = new mongoose.Schema(
 
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
-  this.password = await bcrypt.hash(this.password, 10);
+  this.password = await bcrypt.hash(this.password, 12);
   next();
 });
 

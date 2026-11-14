@@ -1,13 +1,64 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { loadJSON, saveJSON } from '../utils/storage'
 import { CAREERS, LEVELS, EXAM_FORMATS } from '../data/catalogo'
 import { LENGUA_MODULES, QUIZ_BANK, EXTRA_MODULES, EXTRA_BANK } from '../data/contenido'
+import { getProgress, updateProgress, getToken } from '../api'
 
-// Datos de la carrera elegida y progreso de estudio, se guarda en localStorage.
+// Guarda local al instante; sincroniza con Mongo en segundo plano (no bloquea la UI).
+function syncProgress(payload) {
+  if (!getToken()) return
+  void updateProgress(payload).catch(() => {
+    // Silencioso: la UI ya tiene el dato en localStorage
+  })
+}
+
 export function useCarrera() {
   const [sel] = useState(() => loadJSON('lyl_sel', null))
   const [studied, setStudiedState] = useState(() => loadJSON('lyl_studied', {}))
   const [demo, setDemoState] = useState(() => loadJSON('lyl_demo', false))
+  const [synced, setSynced] = useState(false)
+
+  // Al montar: si hay token, trae el progreso de Mongo y lo mezcla con el local
+  useEffect(() => {
+    if (!getToken() || synced) return
+
+    let cancelled = false
+    ;(async () => {
+      try {
+        const data = await getProgress()
+        if (cancelled || !data) return
+
+        // studied: preferimos el del servidor si trae algo; si no, dejamos el local
+        if (data.studied && typeof data.studied === 'object') {
+          const local = loadJSON('lyl_studied', {})
+          const merged = { ...local, ...data.studied }
+          setStudiedState(merged)
+          saveJSON('lyl_studied', merged)
+        }
+
+        if (typeof data.demo === 'boolean') {
+          setDemoState(data.demo)
+          saveJSON('lyl_demo', data.demo)
+        }
+
+        // Si el servidor tiene carrera/uni y el local no, las recuperamos
+        if (data.career && data.uni) {
+          const localSel = loadJSON('lyl_sel', null)
+          if (!localSel?.career || !localSel?.uni) {
+            saveJSON('lyl_sel', { career: data.career, uni: data.uni })
+          }
+        }
+      } catch {
+        // Sin red o sin token válido: seguimos con localStorage
+      } finally {
+        if (!cancelled) setSynced(true)
+      }
+    })()
+
+    return () => {
+      cancelled = true
+    }
+  }, [synced])
 
   const carrera = sel ? CAREERS.find((c) => c.id === sel.career) : null
 
@@ -42,17 +93,29 @@ export function useCarrera() {
   function setStudied(id, val) {
     const next = { ...studied, [id]: val }
     setStudiedState(next)
-    saveJSON('lyl_studied', next)
+    saveJSON('lyl_studied', next) // UI inmediata
+    syncProgress({ studied: next }) // Mongo en segundo plano
   }
 
   function activarDemo() {
     setDemoState(true)
     saveJSON('lyl_demo', true)
+    syncProgress({ demo: true })
   }
 
   return {
-    sel, carrera, modulos, banco, formato, studied,
-    levelMods, levelDone, levelUnlocked, guideDone, examUnlocked,
-    setStudied, activarDemo,
+    sel,
+    carrera,
+    modulos,
+    banco,
+    formato,
+    studied,
+    levelMods,
+    levelDone,
+    levelUnlocked,
+    guideDone,
+    examUnlocked,
+    setStudied,
+    activarDemo,
   }
 }

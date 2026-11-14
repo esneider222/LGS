@@ -20,13 +20,31 @@ const MODES = {
   ingles: { label: '🌐 Inglés', ph: 'Write or ask in English (or Spanish)…' },
 }
 
-const DEFAULT_SUGGESTIONS = [
-  '¿Cuál es la diferencia entre fonética y fonología?',
-  'Explícame los actos de habla con un ejemplo cotidiano',
-  '¿Qué es la hipótesis del input comprensible?',
-  'Dame 3 autores clave del Boom latinoamericano',
-  '¿Cómo estudio para un examen de morfosintaxis en una semana?',
-]
+const SUGGESTIONS_BY_CAREER = {
+  lengua: [
+    '¿Cuál es la diferencia entre fonética y fonología?',
+    'Explícame los actos de habla con un ejemplo cotidiano',
+    '¿Qué es la hipótesis del input comprensible?',
+    'Dame 3 autores clave del Boom latinoamericano',
+    '¿Cómo estudio para un examen de morfosintaxis en una semana?',
+  ],
+  sistemas: [
+    '¿Qué es un algoritmo y cómo lo explico en una entrevista?',
+    'Diferencia entre estructura de datos lineal y no lineal',
+    'Explícame normalización de bases de datos con un ejemplo',
+    '¿Cómo funciona el modelo cliente-servidor?',
+    'Dame un plan de estudio de 2 semanas para el examen de sistemas',
+  ],
+  derecho: [
+    '¿Qué es el Estado social de derecho en la Constitución de 1991?',
+    'Explícame la diferencia entre tutela y acción popular',
+    '¿Cuáles son las ramas del poder público?',
+    'Dame 5 principios del derecho penal colombiano',
+    '¿Cómo estudio jurisprudencia para el examen de ingreso?',
+  ],
+}
+
+const DEFAULT_SUGGESTIONS = SUGGESTIONS_BY_CAREER.lengua
 
 const CONTEXT_SUGGESTIONS = [
   'Resúmeme este módulo en 5 ideas clave',
@@ -122,8 +140,8 @@ function mdToHtml(src) {
       const tag = ordered ? 'ol' : 'ul'
       out.push(
         `<${tag}>` +
-          items.map((it) => '<li>' + inlineMd(escapeHtml(it)) + '</li>').join('') +
-          `</${tag}>`
+        items.map((it) => '<li>' + inlineMd(escapeHtml(it)) + '</li>').join('') +
+        `</${tag}>`
       )
       continue
     }
@@ -139,17 +157,17 @@ function mdToHtml(src) {
       }
       out.push(
         '<table><thead><tr>' +
-          headers.map((h) => '<th>' + inlineMd(escapeHtml(h)) + '</th>').join('') +
-          '</tr></thead><tbody>' +
-          rows
-            .map(
-              (r) =>
-                '<tr>' +
-                r.map((c) => '<td>' + inlineMd(escapeHtml(c)) + '</td>').join('') +
-                '</tr>'
-            )
-            .join('') +
-          '</tbody></table>'
+        headers.map((h) => '<th>' + inlineMd(escapeHtml(h)) + '</th>').join('') +
+        '</tr></thead><tbody>' +
+        rows
+          .map(
+            (r) =>
+              '<tr>' +
+              r.map((c) => '<td>' + inlineMd(escapeHtml(c)) + '</td>').join('') +
+              '</tr>'
+          )
+          .join('') +
+        '</tbody></table>'
       )
       continue
     }
@@ -478,7 +496,9 @@ export default function Chat() {
     if (abortRef.current) abortRef.current.abort()
   }
 
-  const suggestions = context ? CONTEXT_SUGGESTIONS : DEFAULT_SUGGESTIONS
+  const careerSuggestions =
+    (sel?.career && SUGGESTIONS_BY_CAREER[sel.career]) || DEFAULT_SUGGESTIONS
+  const suggestions = context ? CONTEXT_SUGGESTIONS : careerSuggestions
   const placeholder =
     context && mode === 'explicar'
       ? `Pregunta lo que quieras sobre «${context.title}»…`

@@ -37,14 +37,28 @@ function Seleccion() {
       }
     }
     saveJSON('lyl_sel', { career: pick.career, uni: pick.uni })
-    navigate('/guia')
+
+    // Sincroniza carrera/uni en Mongo sin bloquear
+    try {
+      const session = loadJSON('lyl_session', null)
+      if (session?.token) {
+        // import dinámico para no cargar api si no hace falta
+        import('../api').then(({ updateProgress }) => {
+          void updateProgress({ career: pick.career, uni: pick.uni }).catch(() => { })
+        })
+      }
+    } catch {
+      //
+    }
+
+    navigate('/inicio')
   }
 
   return (
     <main className="container py-4 py-md-5" style={{ maxWidth: '980px' }}>
       <div className="card">
         <div className="card-body p-4 p-md-5">
-          <p className="eyebrow mb-1">Hola, {session.user}</p>
+          <p className="eyebrow mb-1">Hola, {session.name || session.user}</p>
           <h1 className="h3 mb-1" style={{ fontFamily: 'var(--serif-display)' }}>
             ¿Qué quieres estudiar y dónde?
           </h1>
@@ -105,7 +119,7 @@ function Seleccion() {
             >
               Continuar a la guía de estudio
             </button>
-            <Link className="btn btn-outline" to="/">Cerrar sesión</Link>
+            <Link className="btn btn-outline" to="/">Volver</Link>
           </div>
         </div>
       </div>

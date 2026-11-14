@@ -88,7 +88,21 @@ function AppLayout() {
           <p style={{ margin: '0 0 10px' }}>
             <Link to="/seleccion">Cambiar carrera o universidad</Link>
             <br />
-            <Link to="/">Cerrar sesión</Link>
+            <button
+              type="button"
+              className="btn btn-link p-0 align-baseline"
+              style={{ fontSize: 'inherit' }}
+              onClick={() => {
+                try {
+                  localStorage.removeItem('lyl_session')
+                } catch {
+                  //
+                }
+                window.location.href = '/'
+              }}
+            >
+              Cerrar sesión
+            </button>
           </p>
           <div className="theme-toggle">
             {TEMAS.map((t) => (
@@ -101,7 +115,6 @@ function AppLayout() {
               </button>
             ))}
           </div>
-          Tu progreso se guarda solo en este dispositivo.
         </div>
       </aside>
 
