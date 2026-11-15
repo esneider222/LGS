@@ -174,7 +174,6 @@ function Login() {
                   }}
                   disabled={busy}
                 />
-                <div className="form-text">Mínimo 3 caracteres. Se guarda en minúsculas.</div>
               </div>
 
               <div className="mb-3">
