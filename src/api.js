@@ -22,7 +22,7 @@ async function request(path, options = {}) {
     headers,
   })
 
-  let data = null
+  let data
   const text = await res.text()
   try {
     data = text ? JSON.parse(text) : null

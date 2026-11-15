@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { loadJSON, saveJSON } from '../utils/storage'
 import { CAREERS, UNIS, EXAM_FORMATS } from '../data/catalogo'
+import { updateProgress } from '../api'
 
 function Seleccion() {
   const navigate = useNavigate()
@@ -42,10 +43,7 @@ function Seleccion() {
     try {
       const session = loadJSON('lyl_session', null)
       if (session?.token) {
-        // import dinámico para no cargar api si no hace falta
-        import('../api').then(({ updateProgress }) => {
-          void updateProgress({ career: pick.career, uni: pick.uni }).catch(() => { })
-        })
+        void updateProgress({ career: pick.career, uni: pick.uni }).catch(() => { })
       }
     } catch {
       //

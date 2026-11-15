@@ -124,7 +124,7 @@ function Login() {
           </h1>
           <p className="text-secondary small mb-4">
             {modo === 'login'
-              ? 'Después continuarás con tu carrera y universidad guardadas, o las elegirás si es la primera vez.'
+              ? 'Ingresa con tu usuario y contraseña para continuar.'
               : 'Regístrate para guardar tu progreso y usar el tutor con tu cuenta.'}
           </p>
 
