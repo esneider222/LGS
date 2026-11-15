@@ -3,10 +3,9 @@ import { useLocation } from 'react-router-dom'
 import { loadJSON, saveJSON } from '../utils/storage'
 import { useCarrera } from '../hooks/useCarrera'
 import { LENGUA_MODULES, EXTRA_MODULES } from '../data/contenido'
+import { API_URL, getToken } from '../api'
 
-// URL del Worker desde .env.local (no hardcodeada en el repo)
-const WORKER_URL = (import.meta.env.VITE_TUTOR_URL || '').replace(/\/+$/, '')
-const TUTOR_ENDPOINT = WORKER_URL ? WORKER_URL + '/' : ''
+const TUTOR_ENDPOINT = `${API_URL}/api/tutor`
 
 const CHAT_KEY = 'lyl_chat_v2'
 const MODE_KEY = 'lyl_chat_mode'
@@ -289,18 +288,19 @@ export default function Chat() {
   }, [history, streamText, errorMsg, scrollBottom])
 
   const checkTutorStatus = useCallback(async () => {
-    if (!TUTOR_ENDPOINT) {
-      setStatus({ kind: 'err', msg: 'Falta configurar VITE_TUTOR_URL en .env.local' })
-      return
-    }
     try {
-      const r = await fetch(TUTOR_ENDPOINT, { method: 'GET' })
+      const token = getToken()
+      if (!token) {
+        setStatus({ kind: 'err', msg: 'Inicia sesión para usar el tutor.' })
+        return
+      }
+      const r = await fetch(TUTOR_ENDPOINT, { headers: { Authorization: `Bearer ${token}` } })
       if (!r.ok) throw new Error('HTTP ' + r.status)
       const data = await r.json()
-      if (data && data.ok) {
+      if (data?.configured) {
         setStatus({ kind: 'ok', msg: 'Tutor conectado · Gemini' })
       } else {
-        setStatus({ kind: 'warn', msg: 'Tutor responde, pero no está configurado del todo' })
+        setStatus({ kind: 'warn', msg: 'Configura GEMINI_API_KEY en lgs-backend/.env' })
       }
     } catch {
       setStatus({ kind: 'err', msg: 'No se pudo contactar al tutor (red o CORS)' })
@@ -314,44 +314,16 @@ export default function Chat() {
     return () => window.clearTimeout(id)
   }, [checkTutorStatus])
 
-  async function readSSE(resp, onEvent) {
-    const reader = resp.body.getReader()
-    const dec = new TextDecoder()
-    let buf = ''
-    const flush = (chunk) => {
-      buf += chunk
-      const parts = buf.split('\n\n')
-      buf = parts.pop() || ''
-      for (const block of parts) {
-        const lines = block.split('\n')
-        let data = ''
-        for (const line of lines) {
-          if (line.startsWith('data:')) data += line.slice(5).trim()
-        }
-        if (!data || data === '[DONE]') continue
-        try {
-          onEvent(JSON.parse(data))
-        } catch {
-          //
-        }
-      }
-    }
-    while (true) {
-      const { value, done } = await reader.read()
-      if (done) break
-      flush(dec.decode(value, { stream: true }))
-    }
-    if (buf.trim()) flush('\n\n')
-  }
-
   async function streamOnce(payload, signal, onText) {
     const resp = await fetch(TUTOR_ENDPOINT, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${getToken()}`,
+      },
       body: JSON.stringify(payload),
       signal,
     })
-    const ctype = resp.headers.get('content-type') || ''
     if (!resp.ok) {
       let msg = 'Error del tutor (' + resp.status + ')'
       try {
@@ -362,15 +334,6 @@ export default function Chat() {
       }
       throw new Error(msg)
     }
-    if (ctype.includes('text/event-stream')) {
-      let truncated = false
-      await readSSE(resp, (ev) => {
-        if (ev.t) onText(ev.t)
-        if (ev.done) truncated = !!ev.truncated
-        if (ev.error) throw new Error(ev.error)
-      })
-      return { truncated }
-    }
     const data = await resp.json()
     if (data.reply) onText(data.reply)
     return { truncated: !!data.truncated }
@@ -380,7 +343,6 @@ export default function Chat() {
     const payload = {
       messages: turns,
       mode,
-      stream: true,
     }
     if (sel) {
       payload.career = sel.career
@@ -401,18 +363,12 @@ export default function Chat() {
     const cleaned = String(text || '').trim()
     if (!cleaned || busy) return
 
-    if (!TUTOR_ENDPOINT) {
-      setErrorMsg('Falta configurar VITE_TUTOR_URL en .env.local')
-      setStatus({ kind: 'err', msg: 'Falta VITE_TUTOR_URL en .env.local' })
-      return
-    }
-
     setShowChips(false)
     setErrorMsg('')
     setStreamText('')
     setBusy(true)
 
-    const turns = [...history, { role: 'user', content: cleaned }].map((m) => ({
+    const turns = [...history, { role: 'user', content: cleaned }].slice(-20).map((m) => ({
       role: m.role,
       content: m.content,
     }))
