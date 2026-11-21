@@ -21,6 +21,14 @@ const allowedOrigins = [
   'https://lgs-zajv.netlify.app',
 ];
 
+// Permitir también orígenes extra desde variable de entorno (separados por coma)
+if (process.env.CORS_ORIGINS) {
+  process.env.CORS_ORIGINS.split(',').map(o => o.trim()).filter(Boolean)
+    .forEach(o => {
+      if (!allowedOrigins.includes(o)) allowedOrigins.push(o);
+    });
+}
+
 app.use(
   cors({
     origin: function (origin, callback) {
