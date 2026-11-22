@@ -1,10 +1,13 @@
 # LGS — Luz Guía Superior
 
-**LGS (Luz Guía Superior)** es una aplicación educativa diseñada para preparar el ingreso a la educación superior y acompañar el estudio por carrera. El sistema cuenta con una arquitectura desacoplada: el frontend está desarrollado con **React** y **Vite**, mientras que la API backend está construida con **Express** y **MongoDB**.
+**LGS (Luz Guía Superior)** es una aplicación educativa pensada para acompañar a estudiantes que se preparan para el ingreso a la educación superior.  
+El sistema permite estudiar por carrera, practicar con simulacros, organizar el material propio y contar con un tutor de inteligencia artificial que ayuda a explicar conceptos, generar ejercicios y orientar el estudio.
 
-**Demo en producción**
-- Frontend: [https://lgs-zajv.netlify.app](https://lgs-zajv.netlify.app)
-- Backend (API): desplegado en Render
+La arquitectura está desacoplada:
+
+- **Frontend:** React + Vite
+- **Backend (API):** Express + MongoDB
+- **Tutor IA:** Google Gemini (llamadas realizadas únicamente desde el servidor)
 
 ---
 
@@ -23,26 +26,31 @@
   - [Frontend (Netlify)](#frontend-netlify)
   - [Backend (Render)](#backend-render)
 - [Alcance Actual y Consideraciones Técnicas](#alcance-actual-y-consideraciones-técnicas)
+- [Estructura del Proyecto](#estructura-del-proyecto)
+- [Notas Finales](#notas-finales)
 
 ---
 
 ## Requisitos Previos
 
-Para ejecutar este proyecto en un entorno local:
+Antes de empezar, asegúrate de tener lo siguiente:
 
-- **Node.js y npm:** Necesarios para la gestión de paquetes y ejecución tanto del cliente como del servidor.
-- **MongoDB:** Instancia disponible (como MongoDB Atlas) para habilitar el registro de usuarios, inicio de sesión y sincronización del progreso.
-- **API Key de Gemini:** Credencial de Google AI Studio indispensable para habilitar el tutor de Inteligencia Artificial y la generación de ejercicios a partir de apuntes.
-- **(Opcional) Cuenta de Resend:** Para el envío de correos de recuperación de contraseña.
+| Requisito | Descripción | Enlace útil |
+|-----------|-------------|-------------|
+| **Node.js + npm** | Versión LTS recomendada (18 o superior) | [nodejs.org](https://nodejs.org) |
+| **Cuenta de MongoDB Atlas** | Base de datos en la nube (plan gratuito disponible) | [mongodb.com/cloud/atlas](https://www.mongodb.com/cloud/atlas) |
+| **API Key de Google AI Studio** | Necesaria para el tutor de inteligencia artificial | [aistudio.google.com](https://aistudio.google.com) |
+| **Cuenta de Resend** *(opcional)* | Para enviar correos de recuperación de contraseña | [resend.com](https://resend.com) |
+| **Cuenta de Netlify** *(para desplegar frontend)* | Hosting estático gratuito | [netlify.com](https://www.netlify.com) |
+| **Cuenta de Render** *(para desplegar backend)* | Hosting de servicios Node.js | [render.com](https://render.com) |
 
 ---
 
 ## Instalación y Configuración
 
-Sigue estos pasos en orden para configurar correctamente ambos entornos antes de iniciar la aplicación.
+Sigue estos pasos en orden. Es importante no saltarse ninguno, especialmente la configuración de las variables de entorno.
 
 ### 1. Preparación de archivos de entorno
 
-Copia las plantillas de variables de entorno incluidas en el repositorio:
-
-```sh
+El proyecto utiliza archivos `.env` para guardar credenciales y configuraciones sensibles.  
+Nunca subas estos archivos al repositorio.
