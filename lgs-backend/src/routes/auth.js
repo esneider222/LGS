@@ -20,7 +20,7 @@ const authLimiter = rateLimit({
 });
 
 const forgotLimiter = rateLimit({
-  windowMs: 60 * 60 * 1000, // 1 hora
+  windowMs: 60 * 60 * 1000,
   max: 5,
   message: { error: 'Demasiadas solicitudes de recuperación. Intenta más tarde.' },
   standardHeaders: true,
