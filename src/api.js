@@ -41,10 +41,11 @@ async function request(path, options = {}) {
 }
 
 // ── Auth ──────────────────────────────────────────────
-export async function register({ username, password, name }) {
+
+export async function register({ username, email, password, name }) {
   return request('/api/auth/register', {
     method: 'POST',
-    body: JSON.stringify({ username, password, name }),
+    body: JSON.stringify({ username, email, password, name }),
   })
 }
 
@@ -57,6 +58,20 @@ export async function login({ username, password }) {
 
 export async function me() {
   return request('/api/auth/me')
+}
+
+export async function forgotPassword({ email }) {
+  return request('/api/auth/forgot-password', {
+    method: 'POST',
+    body: JSON.stringify({ email }),
+  })
+}
+
+export async function resetPassword({ token, password }) {
+  return request('/api/auth/reset-password', {
+    method: 'POST',
+    body: JSON.stringify({ token, password }),
+  })
 }
 
 // ── Progress ──────────────────────────────────────────
