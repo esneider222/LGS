@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom'
 import AppLayout from './components/AppLayout'
 import Login from './pages/Login'
+import Restablecer from './pages/Restablecer'
 import Seleccion from './pages/Seleccion'
 import Inicio from './pages/Inicio'
 import Guia from './pages/Guia'
