@@ -11,7 +11,6 @@ function signToken(id) {
 }
 
 function isStrongPassword(password) {
-  // Mínimo 8, al menos 1 mayúscula, 1 minúscula y 1 número
   return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/.test(password);
 }
 
@@ -25,20 +24,17 @@ exports.register = async (req, res) => {
 
     if (!isStrongPassword(password)) {
       return res.status(400).json({
-        error: 'La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula y un número.',
+        error: 'La contraseña debe tener mínimo 8 caracteres, una mayúscula, una minúscula y un número.',
       });
     }
 
     const usernameNorm = username.trim().toLowerCase();
     const emailNorm = email.trim().toLowerCase();
 
-    const existsUser = await User.findOne({ username: usernameNorm });
-    if (existsUser) {
+    if (await User.findOne({ username: usernameNorm })) {
       return res.status(409).json({ error: 'Ese nombre de usuario ya está en uso.' });
     }
-
-    const existsEmail = await User.findOne({ email: emailNorm });
-    if (existsEmail) {
+    if (await User.findOne({ email: emailNorm })) {
       return res.status(409).json({ error: 'Ese email ya está registrado.' });
     }
 
@@ -73,12 +69,10 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
   try {
     const { username, password } = req.body;
-
     if (!username || !password) {
       return res.status(400).json({ error: 'Usuario y contraseña son obligatorios.' });
     }
 
-    // Permite login con username o email
     const login = username.trim().toLowerCase();
     const user = await User.findOne({
       $or: [{ username: login }, { email: login }],
@@ -115,8 +109,6 @@ exports.me = async (req, res) => {
   });
 };
 
-// ——— Recuperación de contraseña ———
-
 exports.forgotPassword = async (req, res) => {
   try {
     const { email } = req.body;
@@ -124,10 +116,8 @@ exports.forgotPassword = async (req, res) => {
       return res.status(400).json({ error: 'El email es obligatorio.' });
     }
 
-    const user = await User.findOne({ email: email.trim().toLowerCase() });
-
-    // Siempre respondemos igual para no filtrar si el email existe
     const genericMsg = 'Si el email está registrado, recibirás un enlace para restablecer tu contraseña.';
+    const user = await User.findOne({ email: email.trim().toLowerCase() });
 
     if (!user) {
       return res.json({ message: genericMsg });
@@ -140,17 +130,18 @@ exports.forgotPassword = async (req, res) => {
     const resetUrl = `${frontendUrl}/restablecer?token=${resetToken}`;
 
     const html = `
-      <div style="font-family:sans-serif;max-width:520px;margin:0 auto">
-        <h2>Restablecer contraseña — LGS</h2>
-        <p>Hola ${user.name || user.username},</p>
-        <p>Recibimos una solicitud para restablecer tu contraseña. Haz clic en el botón (o copia el enlace):</p>
-        <p style="margin:24px 0">
-          <a href="${resetUrl}" style="background:#7b1e2b;color:#fff;padding:12px 20px;text-decoration:none;border-radius:6px">
+      <div style="font-family:system-ui,sans-serif;max-width:520px;margin:0 auto;padding:24px">
+        <h2 style="color:#7b1e2b;margin:0 0 16px">Restablecer contraseña — LGS</h2>
+        <p>Hola <strong>${user.name || user.username}</strong>,</p>
+        <p>Recibimos una solicitud para restablecer tu contraseña. Haz clic en el botón:</p>
+        <p style="margin:28px 0">
+          <a href="${resetUrl}"
+             style="background:#7b1e2b;color:#fff;padding:14px 24px;text-decoration:none;border-radius:8px;font-weight:600;display:inline-block">
             Restablecer contraseña
           </a>
         </p>
         <p style="font-size:14px;color:#555">Este enlace expira en <strong>15 minutos</strong>.</p>
-        <p style="font-size:13px;color:#888">Si no solicitaste este cambio, puedes ignorar este correo.</p>
+        <p style="font-size:13px;color:#888;margin-top:24px">Si no solicitaste este cambio, ignora este correo.</p>
       </div>
     `;
 
@@ -177,7 +168,7 @@ exports.resetPassword = async (req, res) => {
 
     if (!isStrongPassword(password)) {
       return res.status(400).json({
-        error: 'La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula y un número.',
+        error: 'La contraseña debe tener mínimo 8 caracteres, una mayúscula, una minúscula y un número.',
       });
     }
 
@@ -186,7 +177,7 @@ exports.resetPassword = async (req, res) => {
     const user = await User.findOne({
       passwordResetToken: hashedToken,
       passwordResetExpires: { $gt: Date.now() },
-    }).select('+password');
+    });
 
     if (!user) {
       return res.status(400).json({ error: 'El enlace no es válido o ya expiró. Solicita uno nuevo.' });
@@ -197,7 +188,6 @@ exports.resetPassword = async (req, res) => {
     user.passwordResetExpires = undefined;
     await user.save();
 
-    // Opcional: iniciar sesión automáticamente
     const jwtToken = signToken(user._id);
 
     res.json({
