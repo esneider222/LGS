@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema(
       lowercase: true,
       minlength: [3, 'El usuario debe tener al menos 3 caracteres'],
       maxlength: [40, 'El usuario no puede superar 40 caracteres'],
-      match: [/^[a-z0-9._-]+$/, 'El usuario solo puede contener letras minúsculas, números, puntos, guiones y guiones bajos'],
+      match: [/^[a-z0-9._-]+$/, 'Solo letras minúsculas, números, puntos, guiones y guiones bajos'],
     },
     email: {
       type: String,
@@ -39,7 +39,6 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// Hash de contraseña
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
   this.password = await bcrypt.hash(this.password, 12);
@@ -50,12 +49,11 @@ userSchema.methods.comparePassword = function (candidate) {
   return bcrypt.compare(candidate, this.password);
 };
 
-// Genera token de recuperación (se guarda hasheado)
 userSchema.methods.createPasswordResetToken = function () {
   const resetToken = crypto.randomBytes(32).toString('hex');
   this.passwordResetToken = crypto.createHash('sha256').update(resetToken).digest('hex');
-  this.passwordResetExpires = Date.now() + 15 * 60 * 1000; // 15 minutos
-  return resetToken; // se envía por email (el sin hashear)
+  this.passwordResetExpires = Date.now() + 15 * 60 * 1000; // 15 min
+  return resetToken;
 };
 
 module.exports = mongoose.model('User', userSchema);
