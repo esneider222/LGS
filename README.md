@@ -50,7 +50,7 @@ Antes de empezar, asegúrate de tener lo siguiente:
 
 Sigue estos pasos en orden. Es importante no saltarse ninguno, especialmente la configuración de las variables de entorno.
 
-### 1. Preparación de archivos de entorno
+### Preparación de archivos de entorno
 
 El proyecto utiliza archivos `.env` para guardar credenciales y configuraciones sensibles.  
 Nunca subas estos archivos al repositorio.
