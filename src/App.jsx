@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom'
 import AppLayout from './components/AppLayout'
 import Login from './pages/Login'
-import Restablecer from './pages/Restablecer'
+import Restablecer from './pages/Restablecer'   
 import Seleccion from './pages/Seleccion'
 import Inicio from './pages/Inicio'
 import Guia from './pages/Guia'
@@ -16,9 +16,9 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Login />} />
+      <Route path="/restablecer" element={<Restablecer />} />  
       <Route path="/seleccion" element={<Seleccion />} />
 
-      {/* Estas pantallas comparten el menú lateral (AppLayout) */}
       <Route element={<AppLayout />}>
         <Route path="/inicio" element={<Inicio />} />
         <Route path="/guia" element={<Guia />} />
